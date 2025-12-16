@@ -1,5 +1,6 @@
 // Standard headers
 #include <stdio.h>
+#include <stdlib.h>
 // Local headers
 #include <loader.h>
 #include <challenge.h>

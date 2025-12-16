@@ -1,7 +1,6 @@
 // Standard headers
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <errno.h>
 #include <string.h>
 // Local headers
@@ -38,6 +37,7 @@ ErrorData load_raw(InputData *input, const char *name) {
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, "Failed to read entirety of input file");
     fclose(inputFile);
     input->rawData[input->size] = '\0';
+    return emptySuccess;
 }
 
 ErrorData find_lines(InputData *input) {
@@ -63,4 +63,5 @@ ErrorData find_lines(InputData *input) {
             input->grid.lines[gridPosition++] = input->rawData + index + 1;
         }
     }
+    return emptySuccess;
 }
