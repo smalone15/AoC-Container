@@ -3,7 +3,7 @@
 
 #include <container.h>
 
-ErrorData load_raw(InputData *input, const char *name);
+ErrorData load_raw(RawInput *raw, const char *name);
 ErrorData find_lines(InputData *input);
 
 #endif

@@ -6,7 +6,7 @@
 // Local headers
 #include <loader.h>
 
-ErrorData load_raw(InputData *input, const char *name) {
+ErrorData load_raw(RawInput *raw, const char *name) {
     FILE *inputFile = fopen(name, "r");
     if(inputFile == NULL)
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, strerror(errno));
@@ -24,27 +24,27 @@ ErrorData load_raw(InputData *input, const char *name) {
             CHALLENGE_NO_READ, "Cannot read input file, because size is 0"
         );
 
-    input->size = (size_t) status;
+    raw->size = (size_t) status;
     status = fseek(inputFile, 0, SEEK_SET);
     if(status < 0)
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, strerror(errno));
 
-    input->rawData = malloc(input->size + 1);
-    if(input->rawData == NULL)
+    raw->data = malloc(raw->size + 1);
+    if(raw->data == NULL)
         return CONSTRUCT_ERROR(CHALLENGE_NO_MEMORY, "Failed to allocate input data memory");
-    size_t bytesRead = fread(input->rawData, sizeof(char), input->size, inputFile);
+    size_t bytesRead = fread(raw->data, sizeof(char), raw->size, inputFile);
     if(bytesRead == 0 || feof(inputFile) == 0)
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, "Failed to read entirety of input file");
     fclose(inputFile);
-    input->rawData[input->size] = '\0';
+    raw->data[raw->size] = '\0';
     return emptySuccess;
 }
 
 ErrorData find_lines(InputData *input) {
-    for(size_t index = 0; index < input->size; index++) {
-        if(input->rawData[index] == '\r')
-            input->rawData[index] = '\0';
-        else if(input->rawData[index] == '\n')
+    for(size_t index = 0; index < input->raw.size; index++) {
+        if(input->raw.data[index] == '\r')
+            input->raw.data[index] = '\0';
+        else if(input->raw.data[index] == '\n')
             input->grid.height++;
     }
 
@@ -52,15 +52,15 @@ ErrorData find_lines(InputData *input) {
     if(input->grid.lines == NULL)
         return CONSTRUCT_ERROR(CHALLENGE_NO_MEMORY, "Failed to allocate input data memory");
     size_t gridPosition = 0;
-    input->grid.lines[gridPosition++] = input->rawData;
+    input->grid.lines[gridPosition++] = input->raw.data;
     for(
         size_t index = 0;
-        index < input->size && gridPosition < input->grid.height;
+        index < input->raw.size && gridPosition < input->grid.height;
         index++
     ) {
-        if(input->rawData[index] == '\n') {
-            input->rawData[index] = '\0';
-            input->grid.lines[gridPosition++] = input->rawData + index + 1;
+        if(input->raw.data[index] == '\n') {
+            input->raw.data[index] = '\0';
+            input->grid.lines[gridPosition++] = input->raw.data + index + 1;
         }
     }
     return emptySuccess;

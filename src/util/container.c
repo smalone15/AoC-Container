@@ -12,7 +12,7 @@ static void print_challenge_failure(ErrorData *error, const char *region);
 
 ErrorData emptySuccess = { CHALLENGE_SUCCESS, NULL };
 ErrorData emptyFailure = { CHALLENGE_FAILURE, NULL };
-static InputData emptyInput = { NULL, 0, { NULL, 1 } };
+static InputData emptyInput = { { NULL, 0 }, { NULL, 1 } };
 static Answer emptyResult = { "NO TYPE", 0 };
 
 int main(void) {
@@ -37,7 +37,7 @@ static ErrorData load_container(InputData *input, Answer *result) {
     *input = emptyInput;
     *result = emptyResult;
     ErrorData error;
-    error = load_raw(input, dataFileName);
+    error = load_raw(&input->raw, dataFileName);
     if(IS_SUCCESS(error))
         error = find_lines(input);
     return error;
@@ -45,7 +45,7 @@ static ErrorData load_container(InputData *input, Answer *result) {
 
 static void clean_container(InputData *input) {
     free(input->grid.lines);        
-    free(input->rawData);
+    free(input->raw.data);
     *input = emptyInput;
 }
 

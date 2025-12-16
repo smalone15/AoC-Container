@@ -4,13 +4,17 @@
 #include <stddef.h>
 
 typedef struct {
+    char *data;
+    size_t size;
+} RawInput;
+
+typedef struct {
     char **lines;
     size_t height;
 } LineGrid;
 
 typedef struct {
-    char *rawData;
-    size_t size;
+    RawInput raw;
     LineGrid grid;
 } InputData;
 
