@@ -39,7 +39,7 @@ static ErrorData load_container(InputData *input, Answer *result) {
     ErrorData error;
     error = load_raw(&input->raw, dataFileName);
     if(IS_SUCCESS(error))
-        error = find_lines(input);
+    error = find_lines(input);
     return error;
 }
 

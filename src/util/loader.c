@@ -7,7 +7,7 @@
 #include <loader.h>
 
 ErrorData load_raw(RawInput *raw, const char *name) {
-    FILE *inputFile = fopen(name, "r");
+    FILE *inputFile = fopen(name, "rb");
     if(inputFile == NULL)
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, strerror(errno));
 
@@ -33,7 +33,7 @@ ErrorData load_raw(RawInput *raw, const char *name) {
     if(raw->data == NULL)
         return CONSTRUCT_ERROR(CHALLENGE_NO_MEMORY, "Failed to allocate input data memory");
     size_t bytesRead = fread(raw->data, sizeof(char), raw->size, inputFile);
-    if(bytesRead == 0 || feof(inputFile) == 0)
+    if(bytesRead != raw->size)
         return CONSTRUCT_ERROR(CHALLENGE_NO_READ, "Failed to read entirety of input file");
     fclose(inputFile);
     raw->data[raw->size] = '\0';
