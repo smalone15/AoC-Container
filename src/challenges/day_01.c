@@ -1,3 +1,5 @@
+// C standard headers
+#include <stdlib.h>
 // Local headers
 #include <challenge.h>
 #include <feed.h>
