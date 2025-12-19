@@ -1,0 +1,9 @@
+# Environment variables
+.vscode
+.env
+# Binaries
+bin/
+__pycache__/
+.pyc
+.exe
+.bin

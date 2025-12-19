@@ -1,40 +1,41 @@
 // C standard headers
 #include <stdlib.h>
+#include <stdbool.h>
 // Local headers
 #include <challenge.h>
 #include <feed.h>
-#include <stdlib.h>
 
+const char delimiter = '\n';
 const char *dataFileName = "./data/day_01.txt";
-const char delimiter = ',';
 
 ErrorData evaluate(InputData *input, Answer *result) {
-    *result = (Answer) { "Password",  0};
+    *result = (Answer) { "Password", 0 };
     int position = 50;
 
     LineFeed feed = create_linefeed(input);
     for(char *line = get_linefeed(&feed); line != NULL; line = get_linefeed(&feed)) {
-        // PROCESS LINE
-        int rotations;
+        int rotations, overflows = 0;
         switch(*line) {
             case 'L':
-            //subtract value
                 rotations = atoi(line + 1);
+                int start = position;
                 position -= rotations;
-                position = (position % 100 + 100) % 100;       
+                if(position <= 0) {
+                    overflows = -position / 100;
+                    if(start != 0) overflows++;
+                }
+                position = (position % 100 + 100) % 100;
                 break;
-
             case 'R':
-                // add value
                 rotations = atoi(line + 1);
                 position += rotations;
-                position %= 100;                
+                overflows = position / 100;
+                position %= 100;
                 break;
-
             default:
-                    continue;
+                continue;
         }
-        if (position == 0) result->output++;
+        result->output += overflows;
     }
     return emptySuccess;
 }

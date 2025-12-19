@@ -39,7 +39,7 @@ static ErrorData load_container(InputData *input, Answer *result) {
     ErrorData error;
     error = load_raw(&input->raw, dataFileName);
     if(IS_SUCCESS(error))
-    error = find_lines(input);
+        error = find_lines(input);
     return error;
 }
 
@@ -50,7 +50,7 @@ static void clean_container(InputData *input) {
 }
 
 static void print_challenge_result(Answer *result) {
-    printf("%s: %d\n", result->name, result->output);
+    printf("%s: %lld\n", result->name, result->output);
 }
 
 static void print_challenge_failure(ErrorData *error, const char *region) {

@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 const char *dataFileName = "./data/day_01.txt";
+const char delimiter = ',';
 
 ErrorData evaluate(InputData *input, Answer *result) {
     *result = (Answer) { "Password",  0};

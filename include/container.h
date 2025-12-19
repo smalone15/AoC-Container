@@ -1,6 +1,7 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
 
+#include <stdint.h>
 #include <stddef.h>
 
 typedef struct {
@@ -20,7 +21,7 @@ typedef struct {
 
 typedef struct {
     char *name;
-    int output;
+    int64_t output;
 } Answer;
 
 typedef enum {
