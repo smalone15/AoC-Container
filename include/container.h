@@ -28,7 +28,8 @@ typedef enum {
     CHALLENGE_SUCCESS,
     CHALLENGE_FAILURE,
     CHALLENGE_NO_MEMORY,
-    CHALLENGE_NO_READ
+    CHALLENGE_NO_READ,
+    CHALLENGE_ENCODING_FAILURE
 } ChallengeCode;
 
 typedef struct {
@@ -42,5 +43,6 @@ extern ErrorData emptyFailure;
 #define IS_SUCCESS(_err) (_err.code == CHALLENGE_SUCCESS)
 #define IS_FAILURE(_err) (_err.code != CHALLENGE_SUCCESS)
 #define CONSTRUCT_ERROR(_code, _info) (ErrorData) { _code, _info }
+
 
 #endif
