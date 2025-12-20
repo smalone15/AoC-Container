@@ -51,9 +51,23 @@ static bool get_range(const char *line, int64_t *start, int64_t *end) {
 }
 
 static bool is_duplicate(const char *numberText, int length) {
-    if(length == 1) return false;
-    for(int i = 0; i < length; i++) {
-
+    // numberText - string of number value to check (numberText = "1212")
+    // digit length of value to check "1212" (length = 4)"
+    
+    // Example number "1212"
+    
+    if(length <= 1) return false; // if check does not trigger because longer than 1
+    for(int pattern = 1; pattern <= length / 2; pattern++) { // loop 1, pattern "1" | loop 2 pattern "12"
+        if(length % pattern != 0) continue;  // if pattern length modulo is not 0, leave loop as failure
+        
+        bool match = true;  // set bool for failure case
+        for(int i = pattern; i < length; i++) {  // iterate through length of patterns as long as iterator is less than length for checking pattern
+            if(numberText[i] != numberText[i % pattern]) {  // numberText[i] in first loop, "1" ### 
+                match = false;
+                break;
+            }
+        }
+        if (match) return true;
     }
-    return true;
+    return false;
 }
